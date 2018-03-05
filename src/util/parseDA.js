@@ -34,7 +34,7 @@ export default function parseDA (date, validate) {
 
     if (validate) {
       if (isValidDate(dd, mm, yyyy) !== true) {
-        throw `invalid DA '${date}'`;
+        throw ('invalid DA ').concat(date);
       }
     }
 
@@ -45,7 +45,7 @@ export default function parseDA (date, validate) {
     };
   }
   if (validate) {
-    throw `invalid DA '${date}'`;
+    throw ('invalid DA ').concat(date);
   }
 
   return undefined;

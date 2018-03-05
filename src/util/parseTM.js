@@ -23,7 +23,7 @@ export default function parseTM (time, validate) {
         (mm && (mm < 0 || mm > 59)) ||
         (ss && (ss < 0 || ss > 59)) ||
         (ffffff && (ffffff < 0 || ffffff > 999999))) {
-        throw `invalid TM '${time}'`;
+        throw ('invalid TM ').concat(time);
       }
     }
 
@@ -36,7 +36,7 @@ export default function parseTM (time, validate) {
   }
 
   if (validate) {
-    throw `invalid TM '${time}'`;
+    throw ('invalid TM ').concat(time);
   }
 
   return undefined;

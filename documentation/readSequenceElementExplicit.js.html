@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>readSequenceElementExplicit.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#attributeTag">attributeTag</a></li><li><a href="global.html#calculateBufferSize">calculateBufferSize</a></li><li><a href="global.html#deprecatedNoticeLogged">deprecatedNoticeLogged</a></li><li><a href="global.html#double">double</a></li><li><a href="global.html#findFragmentIndexWithOffset">findFragmentIndexWithOffset</a></li><li><a href="global.html#float">float</a></li><li><a href="global.html#floatString">floatString</a></li><li><a href="global.html#getByteArrayParser">getByteArrayParser</a></li><li><a href="global.html#getDataLengthSizeInBytesForVR">getDataLengthSizeInBytesForVR</a></li><li><a href="global.html#int16">int16</a></li><li><a href="global.html#int32">int32</a></li><li><a href="global.html#intString">intString</a></li><li><a href="global.html#isPrivateTag">isPrivateTag</a></li><li><a href="global.html#isSequence">isSequence</a></li><li><a href="global.html#isStringVr">isStringVr</a></li><li><a href="global.html#numStringValues">numStringValues</a></li><li><a href="global.html#parseDicomDataSetExplicit">parseDicomDataSetExplicit</a></li><li><a href="global.html#parseDicomDataSetImplicit">parseDicomDataSetImplicit</a></li><li><a href="global.html#parsePN">parsePN</a></li><li><a href="global.html#readByteStream">readByteStream</a></li><li><a href="global.html#readDicomDataSetExplicitUndefinedLength">readDicomDataSetExplicitUndefinedLength</a></li><li><a href="global.html#readDicomDataSetImplicitUndefinedLength">readDicomDataSetImplicitUndefinedLength</a></li><li><a href="global.html#readFixedString">readFixedString</a></li><li><a href="global.html#readUint16">readUint16</a></li><li><a href="global.html#readUint32">readUint32</a></li><li><a href="global.html#seek">seek</a></li><li><a href="global.html#string">string</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#uint16">uint16</a></li><li><a href="global.html#uint32">uint32</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">readSequenceElementExplicit.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import DataSet from './dataSet.js';
+import readDicomElementExplicit from './readDicomElementExplicit.js';
+import readSequenceItem from './readSequenceItem.js';
+import readTag from './readTag.js';
+import * as parseDicomDataSet from './parseDicomDataSet.js';
+
+/**
+ * Internal helper functions for parsing DICOM elements
+ */
+
+function readDicomDataSetExplicitUndefinedLength (byteStream, warnings) {
+  const elements = {};
+
+  while (byteStream.position &lt; byteStream.byteArray.length) {
+    const element = readDicomElementExplicit(byteStream, warnings);
+
+    elements[element.tag] = element;
+
+    // we hit an item delimiter tag, return the current offset to mark
+    // the end of this sequence item
+    if (element.tag === 'xfffee00d') {
+      return new DataSet(byteStream.byteArrayParser, byteStream.byteArray, elements);
+    }
+  }
+
+  // eof encountered - log a warning and return what we have for the element
+  warnings.push('eof encountered before finding item delimiter tag while reading sequence item of undefined length');
+
+  return new DataSet(byteStream.byteArrayParser, byteStream.byteArray, elements);
+}
+
+function readSequenceItemExplicit (byteStream, warnings) {
+  const item = readSequenceItem(byteStream);
+
+  if (item.length === 4294967295) {
+    item.hadUndefinedLength = true;
+    item.dataSet = readDicomDataSetExplicitUndefinedLength(byteStream, warnings);
+    item.length = byteStream.position - item.dataOffset;
+  } else {
+    item.dataSet = new DataSet(byteStream.byteArrayParser, byteStream.byteArray, {});
+    parseDicomDataSet.parseDicomDataSetExplicit(item.dataSet, byteStream, byteStream.position + item.length);
+  }
+
+  return item;
+}
+
+function readSQElementUndefinedLengthExplicit (byteStream, element, warnings) {
+  while ((byteStream.position + 4) &lt;= byteStream.byteArray.length) {
+    // end reading this sequence if the next tag is the sequence delimitation item
+    const nextTag = readTag(byteStream);
+
+    byteStream.seek(-4);
+    if (nextTag === 'xfffee0dd') {
+      // set the correct length
+      element.length = byteStream.position - element.dataOffset;
+      byteStream.seek(8);
+
+      return element;
+    }
+
+    const item = readSequenceItemExplicit(byteStream, warnings);
+
+    element.items.push(item);
+  }
+
+  warnings.push('eof encountered before finding sequence delimitation tag while reading sequence of undefined length');
+  element.length = byteStream.position - element.dataOffset;
+}
+
+function readSQElementKnownLengthExplicit (byteStream, element, warnings) {
+  const maxPosition = element.dataOffset + element.length;
+
+  while (byteStream.position &lt; maxPosition) {
+    const item = readSequenceItemExplicit(byteStream, warnings);
+
+    element.items.push(item);
+  }
+}
+
+export default function readSequenceItemsExplicit (byteStream, element, warnings) {
+  if (byteStream === undefined) {
+    throw 'dicomParser.readSequenceItemsExplicit: missing required parameter \'byteStream\'';
+  }
+
+  if (element === undefined) {
+    throw 'dicomParser.readSequenceItemsExplicit: missing required parameter \'element\'';
+  }
+
+  element.items = [];
+
+  if (element.length === 4294967295) {
+    readSQElementUndefinedLengthExplicit(byteStream, element, warnings);
+  } else {
+    readSQElementKnownLengthExplicit(byteStream, element, warnings);
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

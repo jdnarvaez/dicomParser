@@ -58,7 +58,7 @@ export default function findEndOfEncapsulatedElement (byteStream, element, warni
       });
     } else {
       if (warnings) {
-        warnings.push(`unexpected tag ${tag} while searching for end of pixel data element with undefined length`);
+        warnings.push(('unexpected tag ').concat(tag).concat(' while searching for end of pixel data element with undefined length'));
       }
 
       if (length > byteStream.byteArray.length - byteStream.position) {
@@ -82,6 +82,6 @@ export default function findEndOfEncapsulatedElement (byteStream, element, warni
   }
 
   if (warnings) {
-    warnings.push(`pixel data element ${element.tag} missing sequence delimiter tag xfffee0dd`);
+    warnings.push(('pixel data element ').concat(element.tag).concat(' missing sequence delimiter tag xfffee0dd'));
   }
 }

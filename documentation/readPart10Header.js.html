@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>readPart10Header.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#attributeTag">attributeTag</a></li><li><a href="global.html#calculateBufferSize">calculateBufferSize</a></li><li><a href="global.html#deprecatedNoticeLogged">deprecatedNoticeLogged</a></li><li><a href="global.html#double">double</a></li><li><a href="global.html#findFragmentIndexWithOffset">findFragmentIndexWithOffset</a></li><li><a href="global.html#float">float</a></li><li><a href="global.html#floatString">floatString</a></li><li><a href="global.html#getByteArrayParser">getByteArrayParser</a></li><li><a href="global.html#getDataLengthSizeInBytesForVR">getDataLengthSizeInBytesForVR</a></li><li><a href="global.html#int16">int16</a></li><li><a href="global.html#int32">int32</a></li><li><a href="global.html#intString">intString</a></li><li><a href="global.html#isPrivateTag">isPrivateTag</a></li><li><a href="global.html#isSequence">isSequence</a></li><li><a href="global.html#isStringVr">isStringVr</a></li><li><a href="global.html#numStringValues">numStringValues</a></li><li><a href="global.html#parseDicomDataSetExplicit">parseDicomDataSetExplicit</a></li><li><a href="global.html#parseDicomDataSetImplicit">parseDicomDataSetImplicit</a></li><li><a href="global.html#parsePN">parsePN</a></li><li><a href="global.html#readByteStream">readByteStream</a></li><li><a href="global.html#readDicomDataSetExplicitUndefinedLength">readDicomDataSetExplicitUndefinedLength</a></li><li><a href="global.html#readDicomDataSetImplicitUndefinedLength">readDicomDataSetImplicitUndefinedLength</a></li><li><a href="global.html#readFixedString">readFixedString</a></li><li><a href="global.html#readUint16">readUint16</a></li><li><a href="global.html#readUint32">readUint32</a></li><li><a href="global.html#seek">seek</a></li><li><a href="global.html#string">string</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#uint16">uint16</a></li><li><a href="global.html#uint32">uint32</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">readPart10Header.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import ByteStream from './byteStream.js';
+import DataSet from './dataSet.js';
+import littleEndianByteArrayParser from './littleEndianByteArrayParser.js';
+import readDicomElementExplicit from './readDicomElementExplicit.js';
+
+/**
+ * Parses a DICOM P10 byte array and returns a DataSet object with the parsed elements.  If the options
+ * argument is supplied and it contains the untilTag property, parsing will stop once that
+ * tag is encoutered.  This can be used to parse partial byte streams.
+ *
+ * @param byteArray the byte array
+ * @param options object to control parsing behavior (optional)
+ * @returns {DataSet}
+ * @throws error if an error occurs while parsing.  The exception object will contain a property dataSet with the
+ *         elements successfully parsed before the error.
+ */
+
+export default function readPart10Header (byteArray, options) {
+  if (byteArray === undefined) {
+    throw 'dicomParser.readPart10Header: missing required parameter \'byteArray\'';
+  }
+
+  const littleEndianByteStream = new ByteStream(littleEndianByteArrayParser, byteArray);
+
+  function readPrefix () {
+    littleEndianByteStream.seek(128);
+    const prefix = littleEndianByteStream.readFixedString(4);
+
+    if (prefix !== 'DICM') {
+      throw 'dicomParser.readPart10Header: DICM prefix not found at location 132 - this is not a valid DICOM P10 file.';
+    }
+  }
+
+  // main function here
+  function readTheHeader () {
+    // Per the DICOM standard, the header is always encoded in Explicit VR Little Endian (see PS3.10, section 7.1)
+    // so use littleEndianByteStream throughout this method regardless of the transfer syntax
+    readPrefix();
+
+    const warnings = [];
+    const elements = {};
+
+    while (littleEndianByteStream.position &lt; littleEndianByteStream.byteArray.length) {
+      const position = littleEndianByteStream.position;
+      const element = readDicomElementExplicit(littleEndianByteStream, warnings);
+
+      if (element.tag > 'x0002ffff') {
+        littleEndianByteStream.position = position;
+        break;
+      }
+      // Cache the littleEndianByteArrayParser for meta header elements, since the rest of the data set may be big endian
+      // and this parser will be needed later if the meta header values are to be read.
+      element.parser = littleEndianByteArrayParser;
+      elements[element.tag] = element;
+    }
+
+    const metaHeaderDataSet = new DataSet(littleEndianByteStream.byteArrayParser, littleEndianByteStream.byteArray, elements);
+
+    metaHeaderDataSet.warnings = littleEndianByteStream.warnings;
+    metaHeaderDataSet.position = littleEndianByteStream.position;
+
+    return metaHeaderDataSet;
+  }
+
+  // This is where we actually start parsing
+  return readTheHeader();
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>readEncapsulatedImageFrame.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#attributeTag">attributeTag</a></li><li><a href="global.html#calculateBufferSize">calculateBufferSize</a></li><li><a href="global.html#deprecatedNoticeLogged">deprecatedNoticeLogged</a></li><li><a href="global.html#double">double</a></li><li><a href="global.html#findFragmentIndexWithOffset">findFragmentIndexWithOffset</a></li><li><a href="global.html#float">float</a></li><li><a href="global.html#floatString">floatString</a></li><li><a href="global.html#getByteArrayParser">getByteArrayParser</a></li><li><a href="global.html#getDataLengthSizeInBytesForVR">getDataLengthSizeInBytesForVR</a></li><li><a href="global.html#int16">int16</a></li><li><a href="global.html#int32">int32</a></li><li><a href="global.html#intString">intString</a></li><li><a href="global.html#isPrivateTag">isPrivateTag</a></li><li><a href="global.html#isSequence">isSequence</a></li><li><a href="global.html#isStringVr">isStringVr</a></li><li><a href="global.html#numStringValues">numStringValues</a></li><li><a href="global.html#parseDicomDataSetExplicit">parseDicomDataSetExplicit</a></li><li><a href="global.html#parseDicomDataSetImplicit">parseDicomDataSetImplicit</a></li><li><a href="global.html#parsePN">parsePN</a></li><li><a href="global.html#readByteStream">readByteStream</a></li><li><a href="global.html#readDicomDataSetExplicitUndefinedLength">readDicomDataSetExplicitUndefinedLength</a></li><li><a href="global.html#readDicomDataSetImplicitUndefinedLength">readDicomDataSetImplicitUndefinedLength</a></li><li><a href="global.html#readFixedString">readFixedString</a></li><li><a href="global.html#readUint16">readUint16</a></li><li><a href="global.html#readUint32">readUint32</a></li><li><a href="global.html#seek">seek</a></li><li><a href="global.html#string">string</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#uint16">uint16</a></li><li><a href="global.html#uint32">uint32</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">readEncapsulatedImageFrame.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import readEncapsulatedPixelDataFromFragments from './readEncapsulatedPixelDataFromFragments.js';
+
+/**
+ * Functionality for extracting encapsulated pixel data
+ */
+
+const findFragmentIndexWithOffset = (fragments, offset) => {
+  for (let i = 0; i &lt; fragments.length; i++) {
+    if (fragments[i].offset === offset) {
+      return i;
+    }
+  }
+};
+
+const calculateNumberOfFragmentsForFrame = (frameIndex, basicOffsetTable, fragments, startFragmentIndex) => {
+  // special case for last frame
+  if (frameIndex === basicOffsetTable.length - 1) {
+    return fragments.length - startFragmentIndex;
+  }
+
+  // iterate through each fragment looking for the one matching the offset for the next frame
+  const nextFrameOffset = basicOffsetTable[frameIndex + 1];
+
+  for (let i = startFragmentIndex + 1; i &lt; fragments.length; i++) {
+    if (fragments[i].offset === nextFrameOffset) {
+      return i - startFragmentIndex;
+    }
+  }
+
+  throw 'dicomParser.calculateNumberOfFragmentsForFrame: could not find fragment with offset matching basic offset table';
+};
+
+/**
+ * Returns the pixel data for the specified frame in an encapsulated pixel data element that has a non
+ * empty basic offset table.  Note that this function will fail if the basic offset table is empty - in that
+ * case you need to determine which fragments map to which frames and read them using
+ * readEncapsulatedPixelDataFromFragments().  Also see the function createJEPGBasicOffsetTable() to see
+ * how a basic offset table can be created for JPEG images
+ *
+ * @param dataSet - the dataSet containing the encapsulated pixel data
+ * @param pixelDataElement - the pixel data element (x7fe00010) to extract the frame from
+ * @param frameIndex - the zero based frame index
+ * @param [basicOffsetTable] - optional array of starting offsets for frames
+ * @param [fragments] - optional array of objects describing each fragment (offset, position, length)
+ * @returns {object} with the encapsulated pixel data
+ */
+export default function readEncapsulatedImageFrame (dataSet, pixelDataElement, frameIndex, basicOffsetTable, fragments) {
+  // default parameters
+  basicOffsetTable = basicOffsetTable || pixelDataElement.basicOffsetTable;
+  fragments = fragments || pixelDataElement.fragments;
+
+  // Validate parameters
+  if (dataSet === undefined) {
+    throw 'dicomParser.readEncapsulatedImageFrame: missing required parameter \'dataSet\'';
+  }
+  if (pixelDataElement === undefined) {
+    throw 'dicomParser.readEncapsulatedImageFrame: missing required parameter \'pixelDataElement\'';
+  }
+  if (frameIndex === undefined) {
+    throw 'dicomParser.readEncapsulatedImageFrame: missing required parameter \'frameIndex\'';
+  }
+  if (basicOffsetTable === undefined) {
+    throw 'dicomParser.readEncapsulatedImageFrame: parameter \'pixelDataElement\' does not have basicOffsetTable';
+  }
+  if (pixelDataElement.tag !== 'x7fe00010') {
+    throw 'dicomParser.readEncapsulatedImageFrame: parameter \'pixelDataElement\' refers to non pixel data tag (expected tag = x7fe00010)';
+  }
+  if (pixelDataElement.encapsulatedPixelData !== true) {
+    throw 'dicomParser.readEncapsulatedImageFrame: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';
+  }
+  if (pixelDataElement.hadUndefinedLength !== true) {
+    throw 'dicomParser.readEncapsulatedImageFrame: parameter \'pixelDataElement\' refers to pixel data element that does not have undefined length';
+  }
+  if (pixelDataElement.fragments === undefined) {
+    throw 'dicomParser.readEncapsulatedImageFrame: parameter \'pixelDataElement\' refers to pixel data element that does not have fragments';
+  }
+  if (basicOffsetTable.length === 0) {
+    throw 'dicomParser.readEncapsulatedImageFrame: basicOffsetTable has zero entries';
+  }
+  if (frameIndex &lt; 0) {
+    throw 'dicomParser.readEncapsulatedImageFrame: parameter \'frameIndex\' must be >= 0';
+  }
+  if (frameIndex >= basicOffsetTable.length) {
+    throw 'dicomParser.readEncapsulatedImageFrame: parameter \'frameIndex\' must be &lt; basicOffsetTable.length';
+  }
+
+  // find starting fragment based on the offset for the frame in the basic offset table
+  const offset = basicOffsetTable[frameIndex];
+  const startFragmentIndex = findFragmentIndexWithOffset(fragments, offset);
+
+  if (startFragmentIndex === undefined) {
+    throw 'dicomParser.readEncapsulatedImageFrame: unable to find fragment that matches basic offset table entry';
+  }
+
+  // calculate the number of fragments for this frame
+  const numFragments = calculateNumberOfFragmentsForFrame(frameIndex, basicOffsetTable, fragments, startFragmentIndex);
+
+  // now extract the frame from the fragments
+  return readEncapsulatedPixelDataFromFragments(dataSet, pixelDataElement, startFragmentIndex, numFragments, fragments);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

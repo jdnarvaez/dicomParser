@@ -278,7 +278,9 @@ export default class DataSet {
       const bytes = this.byteArray;
       const offset = element.dataOffset;
 
-      return `x${(`00000000${(parser(bytes, offset) * 256 * 256 + parser(bytes, offset + 2)).toString(16)}`).substr(-8)}`;
+      return ('x').concat((('00000000').concat((parser(bytes, offset) * 256 * 256 + parser(bytes, offset + 2)).toString(16))).substr(-8))
+      //
+      // return `x${(`00000000${(parser(bytes, offset) * 256 * 256 + parser(bytes, offset + 2)).toString(16)}`).substr(-8)}`;
     }
 
     return undefined;

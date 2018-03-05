@@ -24,7 +24,7 @@ export default function readSequenceItem (byteStream) {
   };
 
   if (element.tag !== 'xfffee000') {
-    throw `dicomParser.readSequenceItem: item tag (FFFE,E000) not found at offset ${byteStream.position}`;
+    throw ('dicomParser.readSequenceItem: item tag (FFFE,E000) not found at offset ').concat(byteStream.position);
   }
 
   return element;

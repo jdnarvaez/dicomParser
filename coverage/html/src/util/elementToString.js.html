@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/util/elementToString.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">src/util/</a> elementToString.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/34</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as util from './util.js';
+&nbsp;
+/**
+ * Converts an explicit VR element to a string or undefined if it is not possible to convert.
+ * Throws an error if an implicit element is supplied
+ * @param dataSet
+ * @param element
+ * @returns {*}
+ */
+export default function explicitElementToString (dataSet, element) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  if (dataSet === undefined || element === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.explicitElementToString: missing required parameters';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (element.vr === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.explicitElementToString: cannot convert implicit element to string';</span>
+  }
+  var vr = <span class="cstat-no" title="statement not covered" >element.vr;</span>
+  var tag = <span class="cstat-no" title="statement not covered" >element.tag;</span>
+&nbsp;
+  var textResult;
+&nbsp;
+  function multiElementToString (numItems, func) <span class="fstat-no" title="function not covered" >{</span>
+    var result = <span class="cstat-no" title="statement not covered" >'';</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (var i = 0; i &lt; numItems; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      if (i !== 0) {</span>
+<span class="cstat-no" title="statement not covered" >        result += '/';</span>
+      }
+<span class="cstat-no" title="statement not covered" >      result += func.call(dataSet, tag, i).toString();</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return result;</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (util.isStringVr(vr) === true) {</span>
+<span class="cstat-no" title="statement not covered" >    textResult = dataSet.string(tag);</span>
+  } else <span class="cstat-no" title="statement not covered" >if (vr === 'AT') {</span>
+    var num = <span class="cstat-no" title="statement not covered" >dataSet.uint32(tag);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (num === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >      return undefined;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (num &lt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      num = 0xFFFFFFFF + num + 1;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return ('x').concat(num.toString(16).toUpperCase());</span>
+  } else <span class="cstat-no" title="statement not covered" >if (vr === 'US') {</span>
+<span class="cstat-no" title="statement not covered" >    textResult = multiElementToString(element.length / 2, dataSet.uint16);</span>
+  } else <span class="cstat-no" title="statement not covered" >if (vr === 'SS') {</span>
+<span class="cstat-no" title="statement not covered" >    textResult = multiElementToString(element.length / 2, dataSet.int16);</span>
+  } else <span class="cstat-no" title="statement not covered" >if (vr === 'UL') {</span>
+<span class="cstat-no" title="statement not covered" >    textResult = multiElementToString(element.length / 4, dataSet.uint32);</span>
+  } else <span class="cstat-no" title="statement not covered" >if (vr === 'SL') {</span>
+<span class="cstat-no" title="statement not covered" >    textResult = multiElementToString(element.length / 4, dataSet.int32);</span>
+  } else <span class="cstat-no" title="statement not covered" >if (vr === 'FD') {</span>
+<span class="cstat-no" title="statement not covered" >    textResult = multiElementToString(element.length / 8, dataSet.double);</span>
+  } else <span class="cstat-no" title="statement not covered" >if (vr === 'FL') {</span>
+<span class="cstat-no" title="statement not covered" >    textResult = multiElementToString(element.length / 4, dataSet.float);</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return textResult;</span>
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 05 2018 11:43:36 GMT-0600 (CST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

@@ -44,7 +44,7 @@ export default function explicitElementToString (dataSet, element) {
       num = 0xFFFFFFFF + num + 1;
     }
 
-    return `x${num.toString(16).toUpperCase()}`;
+    return ('x').concat(num.toString(16).toUpperCase());
   } else if (vr === 'US') {
     textResult = multiElementToString(element.length / 2, dataSet.uint16);
   } else if (vr === 'SS') {

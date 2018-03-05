@@ -15,7 +15,10 @@ export default function readTag (byteStream) {
 
   const groupNumber = byteStream.readUint16() * 256 * 256;
   const elementNumber = byteStream.readUint16();
-  const tag = `x${(`00000000${(groupNumber + elementNumber).toString(16)}`).substr(-8)}`;
+
+  const tag = ('x').concat((('00000000').concat((groupNumber + elementNumber).toString(16))).substr(-8));
+  //
+  // const tag = `x${(`00000000${(groupNumber + elementNumber).toString(16)}`).substr(-8)}`;
 
   return tag;
 }
