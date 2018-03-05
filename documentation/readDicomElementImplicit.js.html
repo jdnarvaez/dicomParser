@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>readDicomElementImplicit.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#attributeTag">attributeTag</a></li><li><a href="global.html#calculateBufferSize">calculateBufferSize</a></li><li><a href="global.html#deprecatedNoticeLogged">deprecatedNoticeLogged</a></li><li><a href="global.html#double">double</a></li><li><a href="global.html#findFragmentIndexWithOffset">findFragmentIndexWithOffset</a></li><li><a href="global.html#float">float</a></li><li><a href="global.html#floatString">floatString</a></li><li><a href="global.html#getByteArrayParser">getByteArrayParser</a></li><li><a href="global.html#getDataLengthSizeInBytesForVR">getDataLengthSizeInBytesForVR</a></li><li><a href="global.html#int16">int16</a></li><li><a href="global.html#int32">int32</a></li><li><a href="global.html#intString">intString</a></li><li><a href="global.html#isPrivateTag">isPrivateTag</a></li><li><a href="global.html#isSequence">isSequence</a></li><li><a href="global.html#isStringVr">isStringVr</a></li><li><a href="global.html#numStringValues">numStringValues</a></li><li><a href="global.html#parseDicomDataSetExplicit">parseDicomDataSetExplicit</a></li><li><a href="global.html#parseDicomDataSetImplicit">parseDicomDataSetImplicit</a></li><li><a href="global.html#parsePN">parsePN</a></li><li><a href="global.html#readByteStream">readByteStream</a></li><li><a href="global.html#readDicomDataSetExplicitUndefinedLength">readDicomDataSetExplicitUndefinedLength</a></li><li><a href="global.html#readDicomDataSetImplicitUndefinedLength">readDicomDataSetImplicitUndefinedLength</a></li><li><a href="global.html#readFixedString">readFixedString</a></li><li><a href="global.html#readUint16">readUint16</a></li><li><a href="global.html#readUint32">readUint32</a></li><li><a href="global.html#seek">seek</a></li><li><a href="global.html#string">string</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#uint16">uint16</a></li><li><a href="global.html#uint32">uint32</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">readDicomElementImplicit.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import findItemDelimitationItemAndSetElementLength from './findItemDelimitationItem.js';
+import readSequenceItemsImplicit from './readSequenceElementImplicit.js';
+import readTag from './readTag.js';
+
+/**
+ * Internal helper functions for for parsing DICOM elements
+ */
+
+const isSequence = (element, byteStream, vrCallback) => {
+  // if a data dictionary callback was provided, use that to verify that the element is a sequence.
+  if (typeof vrCallback !== 'undefined') {
+    return (vrCallback(element.tag) === 'SQ');
+  }
+
+  if ((byteStream.position + 4) &lt;= byteStream.byteArray.length) {
+    const nextTag = readTag(byteStream);
+
+    byteStream.seek(-4);
+
+    // Item start tag (fffe,e000) or sequence delimiter (i.e. end of sequence) tag (0fffe,e0dd)
+    // These are the tags that could potentially be found directly after a sequence start tag (the delimiter
+    // is found in the case of an empty sequence). This is not 100% safe because a non-sequence item
+    // could have data that has these bytes, but this is how to do it without a data dictionary.
+    return (nextTag === 'xfffee000') || (nextTag === 'xfffee0dd');
+  }
+
+  byteStream.warnings.push('eof encountered before finding sequence item tag or sequence delimiter tag in peeking to determine VR');
+
+  return false;
+};
+
+export default function readDicomElementImplicit (byteStream, untilTag, vrCallback) {
+  if (byteStream === undefined) {
+    throw 'dicomParser.readDicomElementImplicit: missing required parameter \'byteStream\'';
+  }
+
+  const element = {
+    tag: readTag(byteStream),
+    length: byteStream.readUint32(),
+    dataOffset: byteStream.position
+  };
+
+  if (element.length === 4294967295) {
+    element.hadUndefinedLength = true;
+  }
+
+  if (element.tag === untilTag) {
+    return element;
+  }
+
+  if (isSequence(element, byteStream, vrCallback)) {
+    // parse the sequence
+    readSequenceItemsImplicit(byteStream, element);
+
+    return element;
+  }
+
+  // if element is not a sequence and has undefined length, we have to
+  // scan the data for a magic number to figure out when it ends.
+  if (element.hadUndefinedLength) {
+    findItemDelimitationItemAndSetElementLength(byteStream, element);
+
+    return element;
+  }
+
+  // non sequence element with known length, skip over the data part
+  byteStream.seek(element.length);
+
+  return element;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

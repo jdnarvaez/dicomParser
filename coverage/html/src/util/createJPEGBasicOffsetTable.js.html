@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/util/createJPEGBasicOffsetTable.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">src/util/</a> createJPEGBasicOffsetTable.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/35</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/35</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Each JPEG image has an end of image marker 0xFFD9
+function isEndOfImageMarker (dataSet, position) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  return (dataSet.byteArray[position] === 0xFF &amp;&amp;</span>
+  dataSet.byteArray[position + 1] === 0xD9);
+}
+&nbsp;
+function isFragmentEndOfImage (dataSet, pixelDataElement, fragmentIndex) <span class="fstat-no" title="function not covered" >{</span>
+  var fragment = <span class="cstat-no" title="statement not covered" >pixelDataElement.fragments[fragmentIndex];</span>
+  // Need to check the last two bytes and the last three bytes for marker since odd length
+  // fragments are zero padded
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (isEndOfImageMarker(dataSet, fragment.position + fragment.length - 2) ||</span>
+    isEndOfImageMarker(dataSet, fragment.position + fragment.length - 3)) {
+<span class="cstat-no" title="statement not covered" >    return true;</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return false;</span>
+}
+&nbsp;
+function findLastImageFrameFragmentIndex (dataSet, pixelDataElement, startFragment) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  for (var fragmentIndex = startFragment; fragmentIndex &lt; pixelDataElement.fragments.length; fragmentIndex++) {</span>
+<span class="cstat-no" title="statement not covered" >    if (isFragmentEndOfImage(dataSet, pixelDataElement, fragmentIndex)) {</span>
+<span class="cstat-no" title="statement not covered" >      return fragmentIndex;</span>
+    }
+  }
+}
+&nbsp;
+/**
+ * Creates a basic offset table by scanning fragments for JPEG start of image and end Of Image markers
+ * @param {object} dataSet - the parsed dicom dataset
+ * @param {object} pixelDataElement - the pixel data element
+ * @param [fragments] - optional array of objects describing each fragment (offset, position, length)
+ * @returns {Array} basic offset table (array of offsets to beginning of each frame)
+ */
+export default function createJPEGBasicOffsetTable (dataSet, pixelDataElement, fragments) <span class="fstat-no" title="function not covered" >{</span>
+  // Validate parameters
+<span class="cstat-no" title="statement not covered" >  if (dataSet === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.createJPEGBasicOffsetTable: missing required parameter dataSet';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.createJPEGBasicOffsetTable: missing required parameter pixelDataElement';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.tag !== 'x7fe00010') {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.createJPEGBasicOffsetTable: parameter \'pixelDataElement\' refers to non pixel data tag (expected tag = x7fe00010\'';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.encapsulatedPixelData !== true) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.createJPEGBasicOffsetTable: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.hadUndefinedLength !== true) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.createJPEGBasicOffsetTable: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.basicOffsetTable === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.createJPEGBasicOffsetTable: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.fragments === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.createJPEGBasicOffsetTable: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.fragments.length &lt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.createJPEGBasicOffsetTable: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (fragments &amp;&amp; fragments.length &lt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.createJPEGBasicOffsetTable: parameter \'fragments\' must not be zero length';</span>
+  }
+&nbsp;
+  // Default values
+<span class="cstat-no" title="statement not covered" >  fragments = fragments || pixelDataElement.fragments;</span>
+&nbsp;
+  var basicOffsetTable = <span class="cstat-no" title="statement not covered" >[];</span>
+&nbsp;
+  var startFragmentIndex = <span class="cstat-no" title="statement not covered" >0;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  while (true) {</span>
+    // Add the offset for the start fragment
+<span class="cstat-no" title="statement not covered" >    basicOffsetTable.push(pixelDataElement.fragments[startFragmentIndex].offset);</span>
+    var endFragmentIndex = <span class="cstat-no" title="statement not covered" >findLastImageFrameFragmentIndex(dataSet, pixelDataElement, startFragmentIndex);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (endFragmentIndex === undefined || endFragmentIndex === pixelDataElement.fragments.length - 1) {</span>
+<span class="cstat-no" title="statement not covered" >      return basicOffsetTable;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    startFragmentIndex = endFragmentIndex + 1;</span>
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 05 2018 10:50:40 GMT-0600 (CST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

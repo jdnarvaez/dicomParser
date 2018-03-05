@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>littleEndianByteArrayParser.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#attributeTag">attributeTag</a></li><li><a href="global.html#calculateBufferSize">calculateBufferSize</a></li><li><a href="global.html#deprecatedNoticeLogged">deprecatedNoticeLogged</a></li><li><a href="global.html#double">double</a></li><li><a href="global.html#findFragmentIndexWithOffset">findFragmentIndexWithOffset</a></li><li><a href="global.html#float">float</a></li><li><a href="global.html#floatString">floatString</a></li><li><a href="global.html#getByteArrayParser">getByteArrayParser</a></li><li><a href="global.html#getDataLengthSizeInBytesForVR">getDataLengthSizeInBytesForVR</a></li><li><a href="global.html#int16">int16</a></li><li><a href="global.html#int32">int32</a></li><li><a href="global.html#intString">intString</a></li><li><a href="global.html#isPrivateTag">isPrivateTag</a></li><li><a href="global.html#isSequence">isSequence</a></li><li><a href="global.html#isStringVr">isStringVr</a></li><li><a href="global.html#numStringValues">numStringValues</a></li><li><a href="global.html#parseDicomDataSetExplicit">parseDicomDataSetExplicit</a></li><li><a href="global.html#parseDicomDataSetImplicit">parseDicomDataSetImplicit</a></li><li><a href="global.html#parsePN">parsePN</a></li><li><a href="global.html#readByteStream">readByteStream</a></li><li><a href="global.html#readDicomDataSetExplicitUndefinedLength">readDicomDataSetExplicitUndefinedLength</a></li><li><a href="global.html#readDicomDataSetImplicitUndefinedLength">readDicomDataSetImplicitUndefinedLength</a></li><li><a href="global.html#readFixedString">readFixedString</a></li><li><a href="global.html#readUint16">readUint16</a></li><li><a href="global.html#readUint32">readUint32</a></li><li><a href="global.html#seek">seek</a></li><li><a href="global.html#string">string</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#uint16">uint16</a></li><li><a href="global.html#uint32">uint32</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">littleEndianByteArrayParser.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Internal helper functions for parsing different types from a little-endian byte array
+ */
+
+export default {
+
+  /**
+   *
+   * Parses an unsigned int 16 from a little-endian byte array
+   *
+   * @param byteArray the byte array to read from
+   * @param position the position in the byte array to read from
+   * @returns {*} the parsed unsigned int 16
+   * @throws error if buffer overread would occur
+   * @access private
+   */
+  readUint16 (byteArray, position) {
+    if (position &lt; 0) {
+      throw 'littleEndianByteArrayParser.readUint16: position cannot be less than 0';
+    }
+
+    if (position + 2 > byteArray.length) {
+      throw 'littleEndianByteArrayParser.readUint16: attempt to read past end of buffer';
+    }
+
+    return byteArray[position] + (byteArray[position + 1] * 256);
+  },
+
+  /**
+   *
+   * Parses a signed int 16 from a little-endian byte array
+   *
+   * @param byteArray the byte array to read from
+   * @param position the position in the byte array to read from
+   * @returns {*} the parsed signed int 16
+   * @throws error if buffer overread would occur
+   * @access private
+   */
+  readInt16 (byteArray, position) {
+    if (position &lt; 0) {
+      throw 'littleEndianByteArrayParser.readInt16: position cannot be less than 0';
+    }
+    if (position + 2 > byteArray.length) {
+      throw 'littleEndianByteArrayParser.readInt16: attempt to read past end of buffer';
+    }
+
+    let int16 = byteArray[position] + (byteArray[position + 1] &lt;&lt; 8);
+
+    // fix sign
+    if (int16 &amp; 0x8000) {
+      int16 = int16 - 0xFFFF - 1;
+    }
+
+    return int16;
+  },
+
+
+  /**
+   * Parses an unsigned int 32 from a little-endian byte array
+   *
+   * @param byteArray the byte array to read from
+   * @param position the position in the byte array to read from
+   * @returns {*} the parsed unsigned int 32
+   * @throws error if buffer overread would occur
+   * @access private
+   */
+  readUint32 (byteArray, position) {
+    if (position &lt; 0) {
+      throw 'littleEndianByteArrayParser.readUint32: position cannot be less than 0';
+    }
+
+    if (position + 4 > byteArray.length) {
+      throw 'littleEndianByteArrayParser.readUint32: attempt to read past end of buffer';
+    }
+
+    return (byteArray[position] +
+           (byteArray[position + 1] * 256) +
+           (byteArray[position + 2] * 256 * 256) +
+           (byteArray[position + 3] * 256 * 256 * 256));
+  },
+
+  /**
+ * Parses a signed int 32 from a little-endian byte array
+ *
+ * @param byteArray the byte array to read from
+ * @param position the position in the byte array to read from
+   * @returns {*} the parsed unsigned int 32
+   * @throws error if buffer overread would occur
+   * @access private
+   */
+  readInt32 (byteArray, position) {
+    if (position &lt; 0) {
+      throw 'littleEndianByteArrayParser.readInt32: position cannot be less than 0';
+    }
+
+    if (position + 4 > byteArray.length) {
+      throw 'littleEndianByteArrayParser.readInt32: attempt to read past end of buffer';
+    }
+
+    return (byteArray[position] +
+           (byteArray[position + 1] &lt;&lt; 8) +
+           (byteArray[position + 2] &lt;&lt; 16) +
+           (byteArray[position + 3] &lt;&lt; 24));
+  },
+
+  /**
+   * Parses 32-bit float from a little-endian byte array
+   *
+   * @param byteArray the byte array to read from
+   * @param position the position in the byte array to read from
+   * @returns {*} the parsed 32-bit float
+   * @throws error if buffer overread would occur
+   * @access private
+   */
+  readFloat (byteArray, position) {
+    if (position &lt; 0) {
+      throw 'littleEndianByteArrayParser.readFloat: position cannot be less than 0';
+    }
+
+    if (position + 4 > byteArray.length) {
+      throw 'littleEndianByteArrayParser.readFloat: attempt to read past end of buffer';
+    }
+
+    // I am sure there is a better way than this but this should be safe
+    const byteArrayForParsingFloat = new Uint8Array(4);
+
+    byteArrayForParsingFloat[0] = byteArray[position];
+    byteArrayForParsingFloat[1] = byteArray[position + 1];
+    byteArrayForParsingFloat[2] = byteArray[position + 2];
+    byteArrayForParsingFloat[3] = byteArray[position + 3];
+
+    const floatArray = new Float32Array(byteArrayForParsingFloat.buffer);
+
+    return floatArray[0];
+  },
+
+  /**
+   * Parses 64-bit float from a little-endian byte array
+   *
+   * @param byteArray the byte array to read from
+   * @param position the position in the byte array to read from
+   * @returns {*} the parsed 64-bit float
+   * @throws error if buffer overread would occur
+   * @access private
+   */
+  readDouble (byteArray, position) {
+    if (position &lt; 0) {
+      throw 'littleEndianByteArrayParser.readDouble: position cannot be less than 0';
+    }
+
+    if (position + 8 > byteArray.length) {
+      throw 'littleEndianByteArrayParser.readDouble: attempt to read past end of buffer';
+    }
+
+    // I am sure there is a better way than this but this should be safe
+    const byteArrayForParsingFloat = new Uint8Array(8);
+
+    byteArrayForParsingFloat[0] = byteArray[position];
+    byteArrayForParsingFloat[1] = byteArray[position + 1];
+    byteArrayForParsingFloat[2] = byteArray[position + 2];
+    byteArrayForParsingFloat[3] = byteArray[position + 3];
+    byteArrayForParsingFloat[4] = byteArray[position + 4];
+    byteArrayForParsingFloat[5] = byteArray[position + 5];
+    byteArrayForParsingFloat[6] = byteArray[position + 6];
+    byteArrayForParsingFloat[7] = byteArray[position + 7];
+
+    const floatArray = new Float64Array(byteArrayForParsingFloat.buffer);
+
+    return floatArray[0];
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

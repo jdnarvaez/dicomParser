@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/readEncapsulatedPixelDataFromFragments.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> readEncapsulatedPixelDataFromFragments.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">1.92% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>1/52</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/36</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">1.92% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/52</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import alloc from './alloc.js';
+import ByteStream from './byteStream.js';
+import readSequenceItem from './readSequenceItem.js';
+import sharedCopy from './sharedCopy.js';
+&nbsp;
+/**
+ * Functionality for extracting encapsulated pixel data
+ */
+&nbsp;
+const calculateBufferSize = (fragments, startFragment, numFragments) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  let bufferSize = <span class="cstat-no" title="statement not covered" >0;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (let i = startFragment; i &lt; startFragment + numFragments; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    bufferSize += fragments[i].length;</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return bufferSize;</span>
+};
+&nbsp;
+/**
+ * Returns the encapsulated pixel data from the specified fragments.  Use this function when you know
+ * the fragments you want to extract data from.  See
+ *
+ * @param dataSet - the dataSet containing the encapsulated pixel data
+ * @param pixelDataElement - the pixel data element (x7fe00010) to extract the fragment data from
+ * @param startFragmentIndex - zero based index of the first fragment to extract from
+ * @param [numFragments] - the number of fragments to extract from, default is 1
+ * @param [fragments] - optional array of objects describing each fragment (offset, position, length)
+ * @returns {object} byte array with the encapsulated pixel data
+ */
+export default function readEncapsulatedPixelDataFromFragments (dataSet, pixelDataElement, startFragmentIndex, numFragments, fragments) <span class="fstat-no" title="function not covered" >{</span>
+  // default values
+<span class="cstat-no" title="statement not covered" >  numFragments = numFragments || 1;</span>
+<span class="cstat-no" title="statement not covered" >  fragments = fragments || pixelDataElement.fragments;</span>
+&nbsp;
+  // check parameters
+<span class="cstat-no" title="statement not covered" >  if (dataSet === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: missing required parameter \'dataSet\'';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: missing required parameter \'pixelDataElement\'';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (startFragmentIndex === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: missing required parameter \'startFragmentIndex\'';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (numFragments === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: missing required parameter \'numFragments\'';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.tag !== 'x7fe00010') {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'pixelDataElement\' refers to non pixel data tag (expected tag = x7fe00010';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.encapsulatedPixelData !== true) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.hadUndefinedLength !== true) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.basicOffsetTable === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.fragments === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (pixelDataElement.fragments.length &lt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'pixelDataElement\' refers to pixel data element that does not have encapsulated pixel data';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (startFragmentIndex &lt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'startFragmentIndex\' must be &gt;= 0';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (startFragmentIndex &gt;= pixelDataElement.fragments.length) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'startFragmentIndex\' must be &lt; number of fragments';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (numFragments &lt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'numFragments\' must be &gt; 0';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (startFragmentIndex + numFragments &gt; pixelDataElement.fragments.length) {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelDataFromFragments: parameter \'startFragment\' + \'numFragments\' &lt; number of fragments';</span>
+  }
+&nbsp;
+  // create byte stream on the data for this pixel data element
+  const byteStream = <span class="cstat-no" title="statement not covered" >new ByteStream(dataSet.byteArrayParser, dataSet.byteArray, pixelDataElement.dataOffset);</span>
+&nbsp;
+  // seek past the basic offset table (no need to parse it again since we already have)
+  const basicOffsetTable = <span class="cstat-no" title="statement not covered" >readSequenceItem(byteStream);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (basicOffsetTable.tag !== 'xfffee000') {</span>
+<span class="cstat-no" title="statement not covered" >    throw 'dicomParser.readEncapsulatedPixelData: missing basic offset table xfffee000';</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  byteStream.seek(basicOffsetTable.length);</span>
+&nbsp;
+  const fragmentZeroPosition = <span class="cstat-no" title="statement not covered" >byteStream.position;</span>
+&nbsp;
+  // tag + length
+  const fragmentHeaderSize = <span class="cstat-no" title="statement not covered" >8;</span>
+&nbsp;
+  // if there is only one fragment, return a view on this array to avoid copying
+<span class="cstat-no" title="statement not covered" >  if (numFragments === 1) {</span>
+<span class="cstat-no" title="statement not covered" >    return sharedCopy(byteStream.byteArray, fragmentZeroPosition + fragments[startFragmentIndex].offset + fragmentHeaderSize, fragments[startFragmentIndex].length);</span>
+  }
+&nbsp;
+  // more than one fragment, combine all of the fragments into one buffer
+  const bufferSize = <span class="cstat-no" title="statement not covered" >calculateBufferSize(fragments, startFragmentIndex, numFragments);</span>
+  const pixelData = <span class="cstat-no" title="statement not covered" >alloc(byteStream.byteArray, bufferSize);</span>
+  let pixelDataIndex = <span class="cstat-no" title="statement not covered" >0;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (let i = startFragmentIndex; i &lt; startFragmentIndex + numFragments; i++) {</span>
+    let fragmentOffset = <span class="cstat-no" title="statement not covered" >fragmentZeroPosition + fragments[i].offset + fragmentHeaderSize;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (let j = 0; j &lt; fragments[i].length; j++) {</span>
+<span class="cstat-no" title="statement not covered" >      pixelData[pixelDataIndex++] = byteStream.byteArray[fragmentOffset++];</span>
+    }
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return pixelData;</span>
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 05 2018 10:50:40 GMT-0600 (CST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
